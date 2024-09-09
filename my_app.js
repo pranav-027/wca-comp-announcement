@@ -104,9 +104,8 @@ async function getCompetitionMessage(competitionUrl) {
   const compVenueAndDetails = comp.venue_details ? `${comp.venue_address} | ${comp.venue_details}` : comp.venue_address;
   const compVenueLink = generateGoogleMapsLink(comp.latitude_degrees, comp.longitude_degrees);
   const compEvents = comp.event_ids.map(event => eventsDict[event]).join(", ");
-  const compLimit = comp.competitor_limit;
-  const baseFee = comp.base_entry_fee_lowest_denomination / 100;
-  const compFee = formatCurrency(baseFee, comp.currency_code);
+  const compLimit = comp.competitor_limit ? comp.competitor_limit : "Unlimited";
+  const compFee = comp.base_entry_fee_lowest_denomination ? formatCurrency((comp.base_entry_fee_lowest_denomination / 100), comp.currency_code) : "No registration fee";
   const regStartsFrom = DateTime.fromISO(comp.registration_open).setZone('Asia/Kolkata').toFormat("EEE | MMMM dd, yyyy 'at' hh:mm a");
   const contactLink = await fetchContactLink(compUrl);
 
@@ -133,7 +132,7 @@ async function getCompetitionFbMessage(competitionUrl) {
   const compDate = formatDateRange(comp.start_date, comp.end_date);
   const compVenueAndDetails = comp.venue_details ? `${comp.venue_address} | ${comp.venue_details}` : comp.venue_address;
   const compEvents = comp.event_ids.map(event => eventsDict[event]).join(", ");
-  const compLimit = comp.competitor_limit;
+  const compLimit = comp.competitor_limit ? comp.competitor_limit : "Unlimited";
   const regStartsFrom = DateTime.fromISO(comp.registration_open).setZone('Asia/Kolkata').toFormat("EEE | MMMM dd, yyyy 'at' hh:mm a");
 
   return (
