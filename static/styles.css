@@ -1,0 +1,117 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+header, footer {
+    background-color: #fcba03;
+    color: #252525;
+    padding: 20px;
+    text-align: center;
+}
+
+header h1, footer p {
+    margin: 0;
+}
+
+a{
+    color: #252525;
+    text-decoration: solid;
+}
+
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #e6e6e6;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    text-align: center;
+}
+
+input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #fcba03;
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fcba03;
+    color: #252525;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #fcba03;
+}
+
+.message-section {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #252525;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-top: 0;
+    color: #fcba03;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+button {
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #fcba03;
+    color: #252525;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #fcba03;
+}
+
+button:active {
+    background-color: #fcba03;
+}
+
+.go-back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #fcba03;
+    color: #252525;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.go-back-button:hover {
+    background-color: #fcba03;
+}
+
+.go-back-button:active {
+    background-color: #fcba03;
+}
