@@ -1,6 +1,5 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
-const { DateTime } = require('luxon');
+const axios = require("axios");
+const { DateTime } = require("luxon");
 const Globalize = require("globalize");
 
 // Load only the necessary CLDR data for the English locale
@@ -15,22 +14,21 @@ Globalize.load(
 // Set the default locale to 'en'
 Globalize.locale("en");
 
-
 const eventsDict = {
-  "333": "3x3",
-  "222": "2x2",
-  "444": "4x4",
-  "555": "5x5",
-  "666": "6x6",
-  "777": "7x7",
+  333: "3x3",
+  222: "2x2",
+  444: "4x4",
+  555: "5x5",
+  666: "6x6",
+  777: "7x7",
   "333bf": "3x3 BLD",
   "333fm": "3x3 FMC",
   "333oh": "3x3 OH",
-  "clock": "Clock",
-  "minx": "Megaminx",
-  "pyram": "Pyraminx",
-  "skewb": "Skewb",
-  "sq1": "Square-1",
+  clock: "Clock",
+  minx: "Megaminx",
+  pyram: "Pyraminx",
+  skewb: "Skewb",
+  sq1: "Square-1",
   "444bf": "4x4 BLD",
   "555bf": "5x5 BLD",
   "333mbf": "3x3 MBLD",
@@ -64,9 +62,8 @@ function extractEmail(text) {
   if (match) {
     return match[0];
   } else {
-    return text; 
+    return text;
   }
-
 }
 
 function generateContactLink(competitionId) {
@@ -81,28 +78,53 @@ function formatDateRange(startDate, endDate) {
   const end = DateTime.fromISO(endDate);
 
   if (startDate === endDate) {
-    return start.toLocaleString(DateTime.DATE_FULL) + ` | ${start.toFormat('cccc')}`;
+    return (
+      start.toLocaleString(DateTime.DATE_FULL) + ` | ${start.toFormat("cccc")}`
+    );
   }
 
-  return `${start.toFormat('MMMM dd')}-${end.toFormat('dd, yyyy')} | ${start.toFormat('ccc')}-${end.toFormat('ccc')}`;
+  return `${start.toFormat("MMMM dd")}-${end.toFormat(
+    "dd, yyyy"
+  )} | ${start.toFormat("ccc")}-${end.toFormat("ccc")}`;
 }
 
 // Function to generate WhatsApp competition message
 async function getCompetitionMessage(competitionUrl) {
-  const apiUrl = competitionUrl.replace('/competitions/', '/api/v0/competitions/');
+  const apiUrl = competitionUrl.replace(
+    "/competitions/",
+    "/api/v0/competitions/"
+  );
   const comp = await fetchCompetitionData(apiUrl);
 
   if (!comp) return "";
 
-  const compOrganizers = comp.organizers.map(organizer => organizer.name).join(", ");
+  const compOrganizers = comp.organizers
+    .map((organizer) => organizer.name)
+    .join(", ");
   const compDate = formatDateRange(comp.start_date, comp.end_date);
-  const compVenueAndDetails = comp.venue_details ? `${comp.venue_address} | ${comp.venue_details}` : comp.venue_address;
-  const compVenueLink = generateGoogleMapsLink(comp.latitude_degrees, comp.longitude_degrees);
-  const compEvents = comp.event_ids.map(event => eventsDict[event]).join(", ");
+  const compVenueAndDetails = comp.venue_details
+    ? `${comp.venue_address} | ${comp.venue_details}`
+    : comp.venue_address;
+  const compVenueLink = generateGoogleMapsLink(
+    comp.latitude_degrees,
+    comp.longitude_degrees
+  );
+  const compEvents = comp.event_ids
+    .map((event) => eventsDict[event])
+    .join(", ");
   const compLimit = comp.competitor_limit ? comp.competitor_limit : "Unlimited";
-  const compFee = comp.base_entry_fee_lowest_denomination ? formatCurrency((comp.base_entry_fee_lowest_denomination / 100), comp.currency_code) : "No registration fee";
-  const regStartsFrom = DateTime.fromISO(comp.registration_open).setZone('Asia/Kolkata').toFormat("EEE | MMMM dd, yyyy 'at' hh:mm a");
-  const contactLink = comp.contact ? extractEmail(comp.contact) : generateContactLink(comp.id);
+  const compFee = comp.base_entry_fee_lowest_denomination
+    ? formatCurrency(
+        comp.base_entry_fee_lowest_denomination / 100,
+        comp.currency_code
+      )
+    : "No registration fee";
+  const regStartsFrom = DateTime.fromISO(comp.registration_open)
+    .setZone("Asia/Kolkata")
+    .toFormat("EEE | MMMM dd, yyyy 'at' hh:mm a");
+  const contactLink = comp.contact
+    ? extractEmail(comp.contact)
+    : generateContactLink(comp.id);
 
   return (
     `*Competition Announcement*\n${competitionUrl}\n\n` +
@@ -119,16 +141,25 @@ async function getCompetitionMessage(competitionUrl) {
 
 // Function to generate Facebook competition message
 async function getCompetitionFbMessage(competitionUrl) {
-  const apiUrl = competitionUrl.replace('/competitions/', '/api/v0/competitions/');
+  const apiUrl = competitionUrl.replace(
+    "/competitions/",
+    "/api/v0/competitions/"
+  );
   const comp = await fetchCompetitionData(apiUrl);
 
   if (!comp) return "";
 
   const compDate = formatDateRange(comp.start_date, comp.end_date);
-  const compVenueAndDetails = comp.venue_details ? `${comp.venue_address} | ${comp.venue_details}` : comp.venue_address;
-  const compEvents = comp.event_ids.map(event => eventsDict[event]).join(", ");
+  const compVenueAndDetails = comp.venue_details
+    ? `${comp.venue_address} | ${comp.venue_details}`
+    : comp.venue_address;
+  const compEvents = comp.event_ids
+    .map((event) => eventsDict[event])
+    .join(", ");
   const compLimit = comp.competitor_limit ? comp.competitor_limit : "Unlimited";
-  const regStartsFrom = DateTime.fromISO(comp.registration_open).setZone('Asia/Kolkata').toFormat("EEE | MMMM dd, yyyy 'at' hh:mm a");
+  const regStartsFrom = DateTime.fromISO(comp.registration_open)
+    .setZone("Asia/Kolkata")
+    .toFormat("EEE | MMMM dd, yyyy 'at' hh:mm a");
 
   return (
     `[Competition Announcement]\n\n${comp.name}\n\n` +
