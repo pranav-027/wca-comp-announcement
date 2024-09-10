@@ -15,6 +15,7 @@ app.use("/static", express.static(path.join(__dirname, "static")));
 
 // Middleware to parse JSON and URL-encoded form data
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Route to serve the index.html
 app.get("/", (req, res) => {
