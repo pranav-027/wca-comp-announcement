@@ -57,26 +57,22 @@ async function fetchCompetitionData(apiUrl) {
   }
 }
 
-// Function to fetch contact link
-async function fetchContactLink(compUrl) {
-  try {
-    const response = await axios.get(compUrl);
-    const $ = cheerio.load(response.data);
-    let contactLink = $("dt:contains('Contact')").next().find("a").attr("href");
+function extractEmail(text) {
+  const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/;
+  const match = text.match(emailRegex);
 
-    if (contactLink.startsWith("/")) {
-      contactLink = "https://www.worldcubeassociation.org" + contactLink;
-    } else if (contactLink.includes("mailto:")) {
-      contactLink = contactLink.replace("mailto:", "");
-    } else {
-      contactLink = compUrl;
-    }
-
-    return contactLink;
-  } catch (error) {
-    console.error(`Error fetching contact link: ${error}`);
-    return compUrl;
+  if (match) {
+    return match[0];
+  } else {
+    return text; 
   }
+
+}
+
+function generateContactLink(competitionId) {
+  const baseURL = "https://www.worldcubeassociation.org/contact";
+  const contactRecipient = "competition";
+  return `${baseURL}?competitionId=${competitionId}&contactRecipient=${contactRecipient}`;
 }
 
 // Function to format date range
@@ -98,7 +94,6 @@ async function getCompetitionMessage(competitionUrl) {
 
   if (!comp) return "";
 
-  const compUrl = comp.url;
   const compOrganizers = comp.organizers.map(organizer => organizer.name).join(", ");
   const compDate = formatDateRange(comp.start_date, comp.end_date);
   const compVenueAndDetails = comp.venue_details ? `${comp.venue_address} | ${comp.venue_details}` : comp.venue_address;
@@ -107,10 +102,10 @@ async function getCompetitionMessage(competitionUrl) {
   const compLimit = comp.competitor_limit ? comp.competitor_limit : "Unlimited";
   const compFee = comp.base_entry_fee_lowest_denomination ? formatCurrency((comp.base_entry_fee_lowest_denomination / 100), comp.currency_code) : "No registration fee";
   const regStartsFrom = DateTime.fromISO(comp.registration_open).setZone('Asia/Kolkata').toFormat("EEE | MMMM dd, yyyy 'at' hh:mm a");
-  const contactLink = await fetchContactLink(compUrl);
+  const contactLink = comp.contact ? extractEmail(comp.contact) : generateContactLink(comp.id);
 
   return (
-    `*Competition Announcement*\n${compUrl}\n\n` +
+    `*Competition Announcement*\n${competitionUrl}\n\n` +
     `*Organizers:*\n${compOrganizers}\n\n` +
     `*Date:*\n${compDate}\n\n` +
     `*Venue:*\n${compVenueAndDetails}\n${compVenueLink}\n\n` +

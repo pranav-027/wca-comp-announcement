@@ -1,3 +1,8 @@
+:root {
+    --theme-color: #6cc24a;
+    --theme-text-color: #252525;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -7,8 +12,8 @@ body {
 }
 
 header, footer {
-    background-color: #6cc24a;
-    color: #252525;
+    background-color: var(--theme-color);
+    color: var(--theme-text-color);
     padding: 20px;
     text-align: center;
 }
@@ -17,8 +22,8 @@ header h1, footer p {
     margin: 0;
 }
 
-a{
-    color: #252525;
+a {
+    color: var(--theme-text-color);
     text-decoration: solid;
 }
 
@@ -39,35 +44,41 @@ input[type="text"] {
     width: 80%;
     padding: 10px;
     margin-bottom: 20px;
-    border: 2px solid #6cc24a;
+    border: 2px solid var(--theme-color);
     border-radius: 5px;
 }
 
-button[type="submit"] {
+button, .go-back-button {
     padding: 10px 20px;
+    font-size: 14px;
     border: none;
     border-radius: 5px;
-    background-color: #6cc24a;
-    color: #252525;
+    background-color: var(--theme-color);
+    color: var(--theme-text-color);
+    text-decoration: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-button[type="submit"]:hover {
-    background-color: #6cc24a;
+button:hover, .go-back-button:hover {
+    background-color: var(--theme-color);
+}
+
+button:active, .go-back-button:active {
+    background-color: var(--theme-color);
 }
 
 .message-section {
     margin-bottom: 20px;
     padding: 20px;
-    background-color: #252525;
+    background-color: #e8e8e8;
     border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 5px rgba(136, 134, 134, 0.1);
 }
 
 h2 {
     margin-top: 0;
-    color: #6cc24a;
+    color: var(--theme-color);
 }
 
 pre {
@@ -77,41 +88,4 @@ pre {
     border-radius: 5px;
     padding: 10px;
     background-color: #f9f9f9;
-}
-
-button {
-    padding: 8px 16px;
-    font-size: 14px;
-    border: none;
-    border-radius: 4px;
-    background-color: #6cc24a;
-    color: #252525;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #6cc24a;
-}
-
-button:active {
-    background-color: #6cc24a;
-}
-
-.go-back-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #6cc24a;
-    color: #252525;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.go-back-button:hover {
-    background-color: #6cc24a;
-}
-
-.go-back-button:active {
-    background-color: #6cc24a;
 }
