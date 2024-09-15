@@ -98,6 +98,7 @@ async function getFormattedCompetitionData(competitionUrl) {
 
   if (!comp) return null;
 
+  const compName = comp.name;
   const compOrganizers = comp.organizers
     .map((organizer) => organizer.name)
     .join(", ");
@@ -128,6 +129,7 @@ async function getFormattedCompetitionData(competitionUrl) {
 
   return {
     comp,
+    compName,
     compOrganizers,
     compDate,
     compVenueAndDetails,
@@ -176,5 +178,24 @@ async function getCompetitionFbMessage(competitionUrl) {
   );
 }
 
+async function getMarkdownMessage(competitionUrl) {
+    const compData = await getFormattedCompetitionData(competitionUrl);
 
-module.exports = { getCompetitionMessage, getCompetitionFbMessage };
+  if (!compData) return "";
+    
+  return(
+    `## Competition Announcement\n` +
+    `### ${compData.compName}\n\n` +
+    `**Organizers:**\n${compData.compOrganizers}\n\n` +
+    `**Date:**\n${compData.compDate}\n\n` +
+    `**Venue:**\n${compData.compVenueAndDetails}\n${compData.compVenueLink}\n\n` +
+    `**Events:**\n${compData.compEvents}\n\n` +
+    `**Competitor Limit:**\n${compData.compLimit}\n\n` +
+    `**Registration Starts From:**\n${compData.regStartsFrom}\n\n` +
+    `${competitionUrl}`
+  );
+  
+}
+
+
+module.exports = { getCompetitionMessage, getCompetitionFbMessage, getMarkdownMessage};
