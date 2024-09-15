@@ -178,6 +178,7 @@ async function getCompetitionFbMessage(competitionUrl) {
   );
 }
 
+// Function to generate Markdown competition message
 async function getMarkdownMessage(competitionUrl) {
     const compData = await getFormattedCompetitionData(competitionUrl);
 
@@ -194,7 +195,6 @@ async function getMarkdownMessage(competitionUrl) {
     `**Registration Starts From:**\n${compData.regStartsFrom}\n\n` +
     `${competitionUrl}`
   );
-  
 }
 
 
