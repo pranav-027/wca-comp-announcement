@@ -88,15 +88,15 @@ function formatDateRange(startDate, endDate) {
   )} | ${start.toFormat("ccc")}-${end.toFormat("ccc")}`;
 }
 
-// Function to generate WhatsApp competition message
-async function getCompetitionMessage(competitionUrl) {
+// Helper function to fetch and format common competition data
+async function getFormattedCompetitionData(competitionUrl) {
   const apiUrl = competitionUrl.replace(
     "/competitions/",
     "/api/v0/competitions/"
   );
   const comp = await fetchCompetitionData(apiUrl);
 
-  if (!comp) return "";
+  if (!comp) return null;
 
   const compOrganizers = comp.organizers
     .map((organizer) => organizer.name)
@@ -126,50 +126,55 @@ async function getCompetitionMessage(competitionUrl) {
     ? extractEmail(comp.contact)
     : generateContactLink(comp.id);
 
+  return {
+    comp,
+    compOrganizers,
+    compDate,
+    compVenueAndDetails,
+    compVenueLink,
+    compEvents,
+    compLimit,
+    compFee,
+    regStartsFrom,
+    contactLink,
+  };
+}
+
+// Function to generate a competition announcement message
+async function getCompetitionMessage(competitionUrl) {
+  const compData = await getFormattedCompetitionData(competitionUrl);
+
+  if (!compData) return "";
+
   return (
     `*Competition Announcement*\n${competitionUrl}\n\n` +
-    `*Organizers:*\n${compOrganizers}\n\n` +
-    `*Date:*\n${compDate}\n\n` +
-    `*Venue:*\n${compVenueAndDetails}\n${compVenueLink}\n\n` +
-    `*Events:*\n${compEvents}\n\n` +
-    `*Competitor Limit:*\n${compLimit}\n\n` +
-    `*Base Registration Fee:*\n${compFee}\n\n` +
-    `*Registration Starts From:*\n${regStartsFrom}\n\n` +
-    `*Contact:*\n${contactLink}\n`
+    `*Organizers:*\n${compData.compOrganizers}\n\n` +
+    `*Date:*\n${compData.compDate}\n\n` +
+    `*Venue:*\n${compData.compVenueAndDetails}\n${compData.compVenueLink}\n\n` +
+    `*Events:*\n${compData.compEvents}\n\n` +
+    `*Competitor Limit:*\n${compData.compLimit}\n\n` +
+    `*Base Registration Fee:*\n${compData.compFee}\n\n` +
+    `*Registration Starts From:*\n${compData.regStartsFrom}\n\n` +
+    `*Contact:*\n${compData.contactLink}\n`
   );
 }
 
 // Function to generate Facebook competition message
 async function getCompetitionFbMessage(competitionUrl) {
-  const apiUrl = competitionUrl.replace(
-    "/competitions/",
-    "/api/v0/competitions/"
-  );
-  const comp = await fetchCompetitionData(apiUrl);
+  const compData = await getFormattedCompetitionData(competitionUrl);
 
-  if (!comp) return "";
-
-  const compDate = formatDateRange(comp.start_date, comp.end_date);
-  const compVenueAndDetails = comp.venue_details
-    ? `${comp.venue_address} | ${comp.venue_details}`
-    : comp.venue_address;
-  const compEvents = comp.event_ids
-    .map((event) => eventsDict[event])
-    .join(", ");
-  const compLimit = comp.competitor_limit ? comp.competitor_limit : "Unlimited";
-  const regStartsFrom = DateTime.fromISO(comp.registration_open)
-    .setZone("Asia/Kolkata")
-    .toFormat("EEE | MMMM dd, yyyy 'at' hh:mm a");
+  if (!compData) return "";
 
   return (
-    `[Competition Announcement]\n\n${comp.name}\n\n` +
-    `Date:\n${compDate}\n\n` +
-    `Venue:\n${compVenueAndDetails}\n\n` +
-    `Events:\n${compEvents}\n\n` +
-    `Competitor Limit:\n${compLimit}\n\n` +
-    `Registration Starts From:\n${regStartsFrom}\n\n` +
-    `Happy Cubing! 🧩\n\n${comp.url}\n`
+    `[Competition Announcement]\n\n${compData.comp.name}\n\n` +
+    `Date:\n${compData.compDate}\n\n` +
+    `Venue:\n${compData.compVenueAndDetails}\n\n` +
+    `Events:\n${compData.compEvents}\n\n` +
+    `Competitor Limit:\n${compData.compLimit}\n\n` +
+    `Registration Starts From:\n${compData.regStartsFrom}\n\n` +
+    `Happy Cubing! 🧩\n\n${compData.comp.url}\n`
   );
 }
+
 
 module.exports = { getCompetitionMessage, getCompetitionFbMessage };
