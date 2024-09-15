@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const { getCompetitionMessage, getCompetitionFbMessage } = require("./my_app"); // Logic methods
+const { getCompetitionMessage, getCompetitionFbMessage, getMarkdownMessage } = require("./my_app"); // Logic methods
 
 const app = express();
 const port = 3000;
@@ -29,10 +29,12 @@ app.post("/result", async (req, res) => {
 
     const compWhatsAppMessage = await getCompetitionMessage(competitionUrl);
     const compFbMessage = await getCompetitionFbMessage(competitionUrl);
+    const compMarkdownMessage = await getMarkdownMessage(competitionUrl);
 
     res.render("result", {
       message: compWhatsAppMessage,
       fbMessage: compFbMessage,
+      markdownMessage: compMarkdownMessage
     });
   } catch (error) {
     console.error("Error processing request:", error);
