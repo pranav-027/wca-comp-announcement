@@ -89,3 +89,15 @@ pre {
     padding: 10px;
     background-color: #f9f9f9;
 }
+
+.error-message {
+    max-width: 600px;            /* Limit width for readability */
+    margin: 50px auto;           /* Center horizontally and add vertical spacing */
+    padding: 20px;               /* Padding around the text */
+    color: #fff;                 /* Text color */
+    background-color: #d9534f;   /* Red background for error */
+    border-radius: 5px;          /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+    text-align: center;          /* Center align text */
+    font-size: 18px;             /* Slightly larger font */
+}

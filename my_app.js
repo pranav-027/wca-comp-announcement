@@ -1,6 +1,7 @@
 const axios = require("axios");
 const { DateTime } = require("luxon");
 const Globalize = require("globalize");
+const {RestrictionError} = require("./utils/errors")
 
 // Load only the necessary CLDR data for the English locale
 Globalize.load(
@@ -13,6 +14,8 @@ Globalize.load(
 
 // Set the default locale to 'en'
 Globalize.locale("en");
+
+const INVALID_ID = 5703;
 
 const eventsDict = {
   333: "3x3",
@@ -34,6 +37,22 @@ const eventsDict = {
   "333mbf": "3x3 MBLD",
 };
 
+function checkCompURL(url) {
+  try {
+    new URL(url);
+    return true;
+  } catch (error) {
+    throw new Error("Invalid URL: Please provide a valid URL.");
+  }
+}
+//temporary
+function restrictionCheck(obj) {
+    const organizers = obj.organizers;
+    if (organizers.find(organizer => organizer.id === INVALID_ID)) {
+      throw new RestrictionError("Not Allowed");
+    }
+}
+
 // Function to generate Google Maps link
 function generateGoogleMapsLink(latitude, longitude) {
   return `https://www.google.com/maps/?q=${latitude},${longitude}`;
@@ -46,13 +65,9 @@ function formatCurrency(value, currencyCode) {
 
 // Function to fetch competition data
 async function fetchCompetitionData(apiUrl) {
-  try {
     const response = await axios.get(apiUrl);
+    restrictionCheck(response.data);
     return response.data;
-  } catch (error) {
-    console.error(`Error fetching competition data: ${error}`);
-    return null;
-  }
 }
 
 function extractEmail(text) {
@@ -90,6 +105,7 @@ function formatDateRange(startDate, endDate) {
 
 // Helper function to fetch and format common competition data
 async function getFormattedCompetitionData(competitionUrl) {
+  checkCompURL(competitionUrl);
   const apiUrl = competitionUrl.replace(
     "/competitions/",
     "/api/v0/competitions/"
