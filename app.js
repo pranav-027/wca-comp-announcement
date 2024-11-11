@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const { getCompetitionMessage, getCompetitionFbMessage, getMarkdownMessage } = require("./my_app"); // Logic methods
+const { RestrictionError } = require("./utils/errors");
 
 const app = express();
 const port = 3000;
@@ -37,8 +38,12 @@ app.post("/result", async (req, res) => {
       markdownMessage: compMarkdownMessage
     });
   } catch (error) {
-    console.error("Error processing request:", error);
-    res.status(500).send("Server Error");
+    if (error instanceof RestrictionError) {
+      res.render("error");
+    } else {
+      console.error("Unexpected error:", error);
+      res.status(500).send("An unexpected error occurred.");
+    }
   }
 });
 
