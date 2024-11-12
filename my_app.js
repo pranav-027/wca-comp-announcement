@@ -48,7 +48,6 @@ function checkCompURL(url) {
 }
 //temporary
 function restrictionCheck(obj) {
-    console.log(INVALID_IDS);
     const organizers = obj.organizers;
     if (organizers.find(organizer => INVALID_IDS.includes(organizer.id))) {
       throw new RestrictionError("Not Allowed");
