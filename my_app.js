@@ -2,6 +2,7 @@ const axios = require("axios");
 const { DateTime } = require("luxon");
 const Globalize = require("globalize");
 const {RestrictionError} = require("./utils/errors")
+require('dotenv').config();
 
 // Load only the necessary CLDR data for the English locale
 Globalize.load(
@@ -15,7 +16,7 @@ Globalize.load(
 // Set the default locale to 'en'
 Globalize.locale("en");
 
-const INVALID_ID = 5703;
+const INVALID_IDS = process.env.INVALID_IDS ? process.env.INVALID_IDS.split(',').map(Number) : [];
 
 const eventsDict = {
   333: "3x3",
@@ -47,8 +48,9 @@ function checkCompURL(url) {
 }
 //temporary
 function restrictionCheck(obj) {
+    console.log(INVALID_IDS);
     const organizers = obj.organizers;
-    if (organizers.find(organizer => organizer.id === INVALID_ID)) {
+    if (organizers.find(organizer => INVALID_IDS.includes(organizer.id))) {
       throw new RestrictionError("Not Allowed");
     }
 }
