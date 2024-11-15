@@ -67,7 +67,7 @@ function formatCurrency(value, currencyCode) {
 // Function to fetch competition data
 async function fetchCompetitionData(apiUrl) {
     const response = await axios.get(apiUrl);
-    restrictionCheck(response.data);
+    //restrictionCheck(response.data);
     return response.data;
 }
 
