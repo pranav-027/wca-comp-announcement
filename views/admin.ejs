@@ -8,16 +8,16 @@
     <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <link rel="icon" type="image/png" href="/static/favicon-32x32.png">
 </head>
-<body>
+<body class="admin-panel">
     <header>
-        <h1>Welcome people!</h1>
+        <h1>Welcome to admin panel</h1>
         <p>Enter the competition URL below to get your message!</p>
     </header>
 
     <main>
         <form action="/result" method="post">
             <input type="text" name="competition_url" placeholder="Enter Competition URL" required>
-            <input type="hidden" name="is_admin" value="false">
+            <input type="hidden" name="is_admin" value="true">
             <button type="submit" value="Submit">Generate Messages</button>
         </form>
     </main>

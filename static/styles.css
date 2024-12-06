@@ -11,6 +11,14 @@ body {
     color: #333;
 }
 
+.admin-panel {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #787878;
+    color: #333;
+}
+
 header, footer {
     background-color: var(--theme-color);
     color: var(--theme-text-color);

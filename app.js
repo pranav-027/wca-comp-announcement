@@ -23,14 +23,19 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+
+app.get("/admin", (req, res) => { 
+  res.render("admin");
+});
+
 // Route to handle the POST request
 app.post("/result", async (req, res) => {
   try {
     const competitionUrl = req.body.competition_url;
-
-    const compWhatsAppMessage = await getCompetitionMessage(competitionUrl);
-    const compFbMessage = await getCompetitionFbMessage(competitionUrl);
-    const compMarkdownMessage = await getMarkdownMessage(competitionUrl);
+    const isAdmin = req.body.is_admin === 'true';
+    const compWhatsAppMessage = await getCompetitionMessage(competitionUrl, isAdmin);
+    const compFbMessage = await getCompetitionFbMessage(competitionUrl, isAdmin);
+    const compMarkdownMessage = await getMarkdownMessage(competitionUrl, isAdmin);
 
     res.render("result", {
       message: compWhatsAppMessage,
