@@ -39,8 +39,7 @@ main {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #e6e6e6;
-    border-radius: 5px;
+    background-color:#a40d0d  border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -48,7 +47,7 @@ form {
     text-align: center;
 }
 
-input[type="text"] {
+input[type="text"],input[type="password"] {
     width: 80%;
     padding: 10px;
     margin-bottom: 20px;
@@ -108,4 +107,31 @@ pre {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
     text-align: center;          /* Center align text */
     font-size: 18px;             /* Slightly larger font */
+}
+
+
+/* To be removed soon */
+.admin-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    background-color: #e6e6e6;
+    color: var(--theme-text-color);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-button:hover {
+    background-color: #a40d0d; /* Slightly darker green */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.admin-button:active {
+    background-color: #dbd219; /* Darker green for click feedback */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
