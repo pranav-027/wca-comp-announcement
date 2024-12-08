@@ -25,7 +25,22 @@ app.get("/", (req, res) => {
 
 
 app.get("/admin", (req, res) => { 
-  res.render("admin");
+  res.render("login", { error: "Invalid credentials!" });
+});
+
+
+app.post("/admin", (req, res) => {
+  const { username, password } = req.body;
+
+  // Validate against environment variables
+  if (
+    username === process.env.ADMIN_ID &&
+    password === process.env.ADMIN_PASSWORD
+  ) {
+    res.render("admin"); // Render the admin page on success
+  } else {
+    res.render("loginerror"); // Send an empty response for incorrect credentials
+  }
 });
 
 // Route to handle the POST request
@@ -44,7 +59,7 @@ app.post("/result", async (req, res) => {
     });
   } catch (error) {
     if (error instanceof RestrictionError) {
-      res.render("error");
+      res.render("comp-error");
     } else {
       console.error("Unexpected error:", error);
       res.status(500).send("An unexpected error occurred.");
