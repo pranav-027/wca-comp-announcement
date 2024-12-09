@@ -43,6 +43,15 @@ app.post("/admin", (req, res) => {
   }
 });
 
+app.get("/create-account", (req, res) => {
+  res.render("createAccount");
+});
+
+app.post("/create-account", (req, res) => {
+  //to be implemented
+  // I'll be using aiven to get a free mysql instance and create users over there
+});
+
 // Route to handle the POST request
 app.post("/result", async (req, res) => {
   try {
