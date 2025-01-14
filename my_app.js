@@ -105,34 +105,19 @@ async function getFormattedCompetitionData(competitionUrl, isAdmin) {
   if (!comp) return null;
 
   const compName = comp.name;
-  const compOrganizers = comp.organizers
-    .map((organizer) => organizer.name)
-    .join(", ");
+  const compOrganizers = comp.organizers.map((organizer) => organizer.name).join(", ");
   const compDelegates = comp.delegates.map((delegate) => delegate.name).join(", ");
   const compDate = formatDateRange(comp.start_date, comp.end_date);
-  const compVenueAndDetails = comp.venue_details
-    ? `${comp.venue_address} | ${comp.venue_details}`
-    : comp.venue_address;
+  const compVenueAndDetails = comp.venue_details? `${comp.venue_address} | ${comp.venue_details}`: comp.venue_address;
   const compVenueLink = generateGoogleMapsLink(
     comp.latitude_degrees,
     comp.longitude_degrees
   );
-  const compEvents = comp.event_ids
-    .map((event) => eventsDict[event])
-    .join(", ");
-  const compLimit = comp.competitor_limit ? comp.competitor_limit : "Unlimited";
-  const compFee = comp.base_entry_fee_lowest_denomination
-    ? formatCurrency(
-        comp.base_entry_fee_lowest_denomination / 100,
-        comp.currency_code
-      )
-    : "No registration fee";
-  const regStartsFrom = DateTime.fromISO(comp.registration_open)
-    .setZone("Asia/Kolkata")
-    .toFormat("EEE | MMMM dd, yyyy 'at' hh:mm a");
-  const contactLink = comp.contact
-    ? extractEmail(comp.contact)
-    : generateContactLink(comp.id);
+  const compEvents = comp.event_ids.map((event) => eventsDict[event]).join(", ");
+  const compLimit = comp.competitor_limit ? comp.competitor_limit : "No limit";
+  const compFee = comp.base_entry_fee_lowest_denomination? formatCurrency(comp.base_entry_fee_lowest_denomination / 100,comp.currency_code): "No registration fee";
+  const regStartsFrom = DateTime.fromISO(comp.registration_open).setZone("Asia/Kolkata").toFormat("EEE | MMMM dd, yyyy 'at' hh:mm a");
+  const contactLink = comp.contact? extractEmail(comp.contact): generateContactLink(comp.id);
 
   return {
     comp,
