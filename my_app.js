@@ -15,8 +15,6 @@ Globalize.load(
 // Set the default locale to 'en'
 Globalize.locale("en");
 
-const INVALID_IDS = process.env.INVALID_IDS ? process.env.INVALID_IDS.split(',').map(Number) : [];
-
 const eventsDict = {
   333: "3x3",
   222: "2x2",
