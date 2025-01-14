@@ -58,14 +58,11 @@ app.post("/result", async (req, res) => {
       markdownMessage: compMarkdownMessage
     });
   } catch (error) {
-    if (error instanceof RestrictionError) {
-      res.render("comp-error");
-    } else {
       console.error("Unexpected error:", error);
       res.status(500).send("An unexpected error occurred.");
     }
   }
-});
+);
 
 // Start the server
 app.listen(port, () => {

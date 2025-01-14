@@ -1,7 +1,6 @@
 const axios = require("axios");
 const { DateTime } = require("luxon");
 const Globalize = require("globalize");
-const {RestrictionError} = require("./utils/errors")
 require('dotenv').config();
 
 // Load only the necessary CLDR data for the English locale
@@ -46,13 +45,6 @@ function checkCompURL(url) {
     throw new Error("Invalid URL: Please provide a valid URL.");
   }
 }
-//temporary
-function restrictionCheck(obj) {
-    const organizers = obj.organizers;
-    if (organizers.find(organizer => INVALID_IDS.includes(organizer.id))) {
-      throw new RestrictionError("Not Allowed");
-    }
-}
 
 // Function to generate Google Maps link
 function generateGoogleMapsLink(latitude, longitude) {
@@ -67,9 +59,6 @@ function formatCurrency(value, currencyCode) {
 // Function to fetch competition data
 async function fetchCompetitionData(apiUrl, isAdmin) {
     const response = await axios.get(apiUrl);
-    if (!isAdmin) {
-      restrictionCheck(response.data);
-    }
     return response.data;
 }
 
