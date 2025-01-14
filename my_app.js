@@ -108,6 +108,7 @@ async function getFormattedCompetitionData(competitionUrl, isAdmin) {
   const compOrganizers = comp.organizers
     .map((organizer) => organizer.name)
     .join(", ");
+  const compDelegates = comp.delegates.map((delegate) => delegate.name).join(", ");
   const compDate = formatDateRange(comp.start_date, comp.end_date);
   const compVenueAndDetails = comp.venue_details
     ? `${comp.venue_address} | ${comp.venue_details}`
@@ -137,6 +138,7 @@ async function getFormattedCompetitionData(competitionUrl, isAdmin) {
     comp,
     compName,
     compOrganizers,
+    compDelegates,
     compDate,
     compVenueAndDetails,
     compVenueLink,
@@ -157,6 +159,7 @@ async function getCompetitionMessage(competitionUrl, isAdmin) {
   return (
     `*Competition Announcement*\n${competitionUrl}\n\n` +
     `*Organizers:*\n${compData.compOrganizers}\n\n` +
+    `*WCA Delegates:*\n${compData.compDelegates}\n\n` +
     `*Date:*\n${compData.compDate}\n\n` +
     `*Venue:*\n${compData.compVenueAndDetails}\n${compData.compVenueLink}\n\n` +
     `*Events:*\n${compData.compEvents}\n\n` +
