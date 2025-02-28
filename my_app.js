@@ -55,7 +55,7 @@ function formatCurrency(value, currencyCode) {
 }
 
 // Function to fetch competition data
-async function fetchCompetitionData(apiUrl, isAdmin) {
+async function fetchCompetitionData(apiUrl) {
     const response = await axios.get(apiUrl);
     return response.data;
 }
@@ -94,13 +94,13 @@ function formatDateRange(startDate, endDate) {
 }
 
 // Helper function to fetch and format common competition data
-async function getFormattedCompetitionData(competitionUrl, isAdmin) {
+async function getFormattedCompetitionData(competitionUrl) {
   checkCompURL(competitionUrl);
   const apiUrl = competitionUrl.replace(
     "/competitions/",
     "/api/v0/competitions/"
   );
-  const comp = await fetchCompetitionData(apiUrl ,isAdmin);
+  const comp = await fetchCompetitionData(apiUrl);
 
   if (!comp) return null;
 
@@ -136,8 +136,8 @@ async function getFormattedCompetitionData(competitionUrl, isAdmin) {
 }
 
 // Function to generate a competition announcement message
-async function getCompetitionMessage(competitionUrl, isAdmin) {
-  const compData = await getFormattedCompetitionData(competitionUrl, isAdmin);
+async function getCompetitionMessage(competitionUrl) {
+  const compData = await getFormattedCompetitionData(competitionUrl);
 
   if (!compData) return "";
 
@@ -156,8 +156,8 @@ async function getCompetitionMessage(competitionUrl, isAdmin) {
 }
 
 // Function to generate Facebook competition message
-async function getCompetitionFbMessage(competitionUrl, isAdmin) {
-  const compData = await getFormattedCompetitionData(competitionUrl, isAdmin);
+async function getCompetitionFbMessage(competitionUrl) {
+  const compData = await getFormattedCompetitionData(competitionUrl);
 
   if (!compData) return "";
 
@@ -173,8 +173,8 @@ async function getCompetitionFbMessage(competitionUrl, isAdmin) {
 }
 
 // Function to generate Markdown competition message
-async function getMarkdownMessage(competitionUrl, isAdmin) {
-    const compData = await getFormattedCompetitionData(competitionUrl, isAdmin);
+async function getMarkdownMessage(competitionUrl) {
+    const compData = await getFormattedCompetitionData(competitionUrl);
 
   if (!compData) return "";
     

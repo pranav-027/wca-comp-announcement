@@ -1,7 +1,6 @@
 const express = require("express");
 const path = require("path");
 const { getCompetitionMessage, getCompetitionFbMessage, getMarkdownMessage } = require("./my_app"); // Logic methods
-const { RestrictionError } = require("./utils/errors");
 
 const app = express();
 const port = 3000;
@@ -23,34 +22,13 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-
-app.get("/admin", (req, res) => { 
-  res.render("login", { error: "Invalid credentials!" });
-});
-
-
-app.post("/admin", (req, res) => {
-  const { username, password } = req.body;
-
-  // Validate against environment variables
-  if (
-    username === process.env.ADMIN_ID &&
-    password === process.env.ADMIN_PASSWORD
-  ) {
-    res.render("admin"); // Render the admin page on success
-  } else {
-    res.render("loginerror"); // Send an empty response for incorrect credentials
-  }
-});
-
 // Route to handle the POST request
 app.post("/result", async (req, res) => {
   try {
     const competitionUrl = req.body.competition_url;
-    const isAdmin = req.body.is_admin === 'true';
-    const compWhatsAppMessage = await getCompetitionMessage(competitionUrl, isAdmin);
-    const compFbMessage = await getCompetitionFbMessage(competitionUrl, isAdmin);
-    const compMarkdownMessage = await getMarkdownMessage(competitionUrl, isAdmin);
+    const compWhatsAppMessage = await getCompetitionMessage(competitionUrl);
+    const compFbMessage = await getCompetitionFbMessage(competitionUrl);
+    const compMarkdownMessage = await getMarkdownMessage(competitionUrl);
 
     res.render("result", {
       message: compWhatsAppMessage,
