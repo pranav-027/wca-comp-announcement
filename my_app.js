@@ -1,7 +1,6 @@
 const axios = require("axios");
 const { DateTime } = require("luxon");
 const Globalize = require("globalize");
-require('dotenv').config();
 
 // Load only the necessary CLDR data for the English locale
 Globalize.load(
