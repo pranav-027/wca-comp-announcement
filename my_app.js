@@ -197,13 +197,11 @@ function getSeriesCompMessage(seriesDetails, compData) {
       `${competitionList}\n\n` +
       `*Organizers:*\n${compData.compOrganizers}\n\n` +
       `*WCA Delegates:*\n${compData.compDelegates}\n\n` +
-      `*Date:*\n${compData.compDate}\n\n` +
       `*Venue:*\n${compData.compVenueAndDetails}\n${compData.compVenueLink}\n\n` +
       `*Events:*\n${compData.compEvents}\n\n` +
       `*Competitor Limit:*\n${compData.compLimit}\n\n` +
       `*Base Registration Fee:*\n${compData.compFee}\n\n` +
       `*Registration Starts From:*\n${compData.regStartsFrom}\n\n` +
-      `*Contact:*\n${compData.contactLink}\n\n` +
       `*${SERIES_COMP_NOTE}*`
   );
 }
