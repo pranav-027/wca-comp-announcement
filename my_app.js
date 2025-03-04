@@ -114,7 +114,9 @@ function formatDateRange(startDate, endDate) {
 }
 
 function formatCompetitionName(competitionId) {
-  return competitionId.replace(/([a-z])([A-Z])/g, "$1 $2");
+  return competitionId
+  .replace(/([a-z])([A-Z])/g, "$1 $2") // Add space between lowercase and uppercase transitions
+  .replace(/(\d+)/, " $1"); // Add space before the first digit sequence (year)
 }
 
 function getCompetitionUrl(competitionId) {
