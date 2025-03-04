@@ -194,7 +194,7 @@ function getSeriesCompMessage(seriesDetails, compData) {
   .join("\n");
 
   return (
-      `*Competition Series Announcement*\n` +
+      `*Competition Series Announcement*\n\n` +
       `*${seriesDetails.name}*\n\n` +
       `${competitionList}\n\n` +
       `*Organizers:*\n${compData.compOrganizers}\n\n` +
