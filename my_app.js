@@ -34,7 +34,7 @@ const eventsDict = {
   "333mbf": "3x3 MBLD",
 };
 
-const SERIES_COMP_NOTE = "Note: You can submit a registration for all competitions in a Series, but only one of those registrations can be confirmed and accepted. You will only be allowed to compete in one of the Series competitions!";
+const SERIES_COMP_NOTE = "Note: You can submit a registration for all competitions in a Series, but you will only be allowed to compete in one of the Series competitions!";
 
 async function getSeriesDetails(url) {
   const wcifUrl = url.replace("/competitions/", "/api/v0/competitions/")
