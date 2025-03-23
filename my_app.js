@@ -34,27 +34,6 @@ const eventsDict = {
   "333mbf": "3x3 MBLD",
 };
 
-const SERIES_COMP_NOTE = "Note: You can submit a registration for all competitions in a Series, but you will only be allowed to compete in one of the Series competitions!";
-
-async function getSeriesDetails(url) {
-  const wcifUrl = url.replace("/competitions/", "/api/v0/competitions/")
-      + "/wcif/public";
-
-  const response = await axios.get(wcifUrl);
-  const wcif = response.data;
-
-  if (wcif.series) {
-    console.log("Series competition found:", {
-      name: wcif.series.name,
-      competitionIds: wcif.series.competitionIds
-    });
-    return {name: wcif.series.name, competitionIds: wcif.series.competitionIds};
-  } else {
-    console.log("Not a series competition.");
-    return null;
-  }
-}
-
 function checkCompURL(url) {
   try {
     new URL(url);
@@ -167,12 +146,9 @@ async function getFormattedCompetitionData(competitionUrl) {
 
 // Function to generate a competition announcement message
 async function getCompetitionMessage(competitionUrl) {
-  const seriesDetails = await getSeriesDetails(competitionUrl);
   const compData = await getFormattedCompetitionData(competitionUrl);
 
   if (!compData) return "";
-
-  if (seriesDetails) return getSeriesCompMessage(seriesDetails, compData);
 
   return (
     `*Competition Announcement*\n${competitionUrl}\n\n` +
@@ -188,26 +164,6 @@ async function getCompetitionMessage(competitionUrl) {
   );
 }
 
-function getSeriesCompMessage(seriesDetails, compData) {
-  const competitionList = seriesDetails.competitionIds
-  .map((id) => `- ${formatCompetitionName(id)} (${getCompetitionUrl(id)})`)
-  .join("\n");
-
-  return (
-      `*Competition Series Announcement*\n\n` +
-      `\n` +
-      `*${seriesDetails.name}*\n\n` +
-      `${competitionList}\n\n` +
-      `*Organizers:*\n${compData.compOrganizers}\n\n` +
-      `*WCA Delegates:*\n${compData.compDelegates}\n\n` +
-      `*Venue:*\n${compData.compVenueAndDetails}\n${compData.compVenueLink}\n\n` +
-      `*Events:*\n${compData.compEvents}\n\n` +
-      `*Competitor Limit:*\n${compData.compLimit}\n\n` +
-      `*Base Registration Fee:*\n${compData.compFee}\n\n` +
-      `*Registration Starts From:*\n${compData.regStartsFrom}\n\n` +
-      `*${SERIES_COMP_NOTE}*`
-  );
-}
 // Function to generate Facebook competition message
 async function getCompetitionFbMessage(competitionUrl) {
   const compData = await getFormattedCompetitionData(competitionUrl);
