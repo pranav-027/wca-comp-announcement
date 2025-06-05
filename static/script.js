@@ -13,5 +13,5 @@ function copyToClipboard(elementId) {
 
     setTimeout(function () {
         toast.classList.remove("show");
-    }, 2000);
+    }, 5000);
 }
