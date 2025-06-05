@@ -136,3 +136,37 @@ pre {
     background-color: #dbd219; /* Darker green for click feedback */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
+#copyToast {
+    visibility: hidden;
+    max-width: 90vw; /* Prevent overflow on narrow screens */
+    word-wrap: break-word;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 12px 20px;
+    position: fixed;
+    bottom: 5vh; /* More adaptive than fixed px */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, visibility 0s linear 0.5s;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+#copyToast.show {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+}
+
+@media (max-width: 480px) {
+    #copyToast {
+        font-size: 0.8rem;
+        padding: 10px 16px;
+    }
+}
