@@ -92,16 +92,6 @@ function formatDateRange(startDate, endDate) {
   )} | ${start.toFormat("ccc")}-${end.toFormat("ccc")}`;
 }
 
-function formatCompetitionName(competitionId) {
-  return competitionId
-  .replace(/([a-z])([A-Z])/g, "$1 $2") // Add space between lowercase and uppercase transitions
-  .replace(/(\d+)/, " $1"); // Add space before the first digit sequence (year)
-}
-
-function getCompetitionUrl(competitionId) {
-  return `https://www.worldcubeassociation.org/competitions/${competitionId}`;
-}
-
 // Helper function to fetch and format common competition data
 async function getFormattedCompetitionData(competitionUrl) {
   checkCompURL(competitionUrl);
