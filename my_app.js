@@ -92,6 +92,21 @@ function formatDateRange(startDate, endDate) {
   )} | ${start.toFormat("ccc")}-${end.toFormat("ccc")}`;
 }
 
+const formatNamesWithAnd = (people) => {
+  const names = people.map(person => person.name).filter(name => name);
+  
+  switch (names.length) {
+    case 1:
+      return names[0];
+    
+    case 2:
+      return names.join(" and ");
+    
+    default: // 3 or more
+      return names.slice(0, -1).join(", ") + " and " + names[names.length - 1];
+  }
+};
+
 // Helper function to fetch and format common competition data
 async function getFormattedCompetitionData(competitionUrl) {
   checkCompURL(competitionUrl);
@@ -104,8 +119,8 @@ async function getFormattedCompetitionData(competitionUrl) {
   if (!comp) return null;
 
   const compName = comp.name;
-  const compOrganizers = comp.organizers.map((organizer) => organizer.name).join(", ");
-  const compDelegates = comp.delegates.map((delegate) => delegate.name).join(", ");
+  const compOrganizers = formatNamesWithAnd(comp.organizers);
+  const compDelegates = formatNamesWithAnd(comp.delegates);
   const compDate = formatDateRange(comp.start_date, comp.end_date);
   const compVenueAndDetails = comp.venue_details? `${comp.venue_address} | ${comp.venue_details}`: comp.venue_address;
   const compVenueLink = generateGoogleMapsLink(
